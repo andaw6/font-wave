@@ -1,0 +1,15 @@
+<button (click)="onContactClick()"
+    class="w-full sm:w-auto flex items-center gap-4 p-4 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transform hover:scale-105"
+    [@pulseAnimation]="isHovered ? 'hovered' : 'idle'" (mouseenter)="isHovered = true" (mouseleave)="isHovered = false">
+    <div class="w-12 h-12 rounded-full flex items-center justify-center shadow-inner transition-all duration-300"
+        [ngClass]="operatorInfo.operatorClass + ' ' + operatorInfo.gradientClass">
+        <span [ngClass]="operatorInfo.textColorClass"
+            class="text-xs sm:text-sm font-medium transition-all duration-300">
+            {{operatorInfo.name}}
+        </span>
+    </div>
+    <div class="flex flex-col items-start overflow-hidden">
+        <span class="font-medium text-sm sm:text-base truncate w-full">{{contact.name}}</span>
+        <span class="text-gray-500 text-xs sm:text-sm truncate w-full">{{contact.phoneNumber}}</span>
+    </div>
+</button>

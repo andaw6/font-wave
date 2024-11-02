@@ -1,0 +1,10 @@
+<div *ngIf="!isLoading" class="flex flex-col h-screen bg-gradient-to-br from-gray-100 to-gray-200">
+    <app-header></app-header>
+    <div class="flex flex-1 overflow-hidden">
+        <app-side-bar [name]="userName"></app-side-bar>
+        <app-main-content class="flex-1"></app-main-content>
+    </div>
+    <app-footer></app-footer>
+</div>
+
+<app-loader [loader]="isLoading"></app-loader>

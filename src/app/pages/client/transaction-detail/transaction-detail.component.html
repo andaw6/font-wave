@@ -1,0 +1,116 @@
+<div *ngIf="!loading" class="max-w-4xl mx-auto px-4 py-8">
+
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <app-header [title]="'Détails de la transaction'"
+            class="mb-5 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-sm transition-all duration-300 ease-in-out">
+        </app-header>
+        <div class="p-6 md:p-8">
+            <div class="flex flex-col md:flex-row items-center justify-between mb-8">
+                <div class="flex items-center gap-4 mb-4 md:mb-0">
+                    <div
+                        class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="text-3xl font-bold text-white">{{transaction.beneficiary.name | initial}}</span>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-gray-900 text-2xl">{{transaction.beneficiary.name}}</h2>
+                        <span
+                            class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-semibold mt-2">
+                            {{transaction.type}}
+                        </span>
+                    </div>
+                </div>
+                <div class="flex flex-col items-end">
+                    <p class="text-4xl font-bold text-gray-900">
+                        {{transaction.amount | formatBalance: transaction.currency}}
+                    </p>
+                    <p class="text-gray-500 text-sm">{{transaction.date | date:'dd MMM yyyy, HH:mm' }}</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Informations de transaction</h3>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between items-center">
+                            <span class="text-gray-600">ID de transaction:</span>
+                            <span class="font-medium text-gray-900">{{ transaction.transactionId }}</span>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <span class="text-gray-600">Statut:</span>
+                            <span class="font-medium text-green-600 bg-green-100 px-2 py-1 rounded">{{
+                                transaction.status }}</span>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <span class="text-gray-600">Méthode:</span>
+                            <span class="font-medium text-gray-900">{{transaction.type}}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Détails du bénéficiaire</h3>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between items-center">
+                            <span class="text-gray-600">Nom:</span>
+                            <span class="font-medium text-gray-900">{{transaction.beneficiary.name}}</span>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <span class="text-gray-600">Email:</span>
+                            <span class="font-medium text-gray-900">{{transaction.beneficiary.email}}</span>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <span class="text-gray-600">Téléphone:</span>
+                            <span class="font-medium text-gray-900">{{transaction.beneficiary.phone}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-6">Historique de la transaction</h3>
+                <ul class="space-y-6">
+                    <li class="flex items-start">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4 mt-1">
+                            <i class="text-blue-600" [innerHTML]="featherIcons['check']"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900">{{transaction.history[0].description}}</p>
+                            <p class="text-sm text-gray-500 mt-1">{{transaction.history[0].date | date:'dd MMM yyyy,
+                                HH:mm'}}</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-4 mt-1">
+                            <i class="text-blue-600" [innerHTML]="featherIcons['creditCard']"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900">{{transaction.history[1].description}}</p>
+                            <p class="text-sm text-gray-500 mt-1">{{transaction.history[1].date | date:'dd MMM yyyy,
+                                HH:mm'}}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-gray-50 px-6 py-4 md:px-8 md:py-6">
+            <div class="flex flex-wrap gap-4">
+                <button
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-150 ease-in-out flex items-center">
+                    <i class="mr-2" [innerHTML]="featherIcons['printer']"></i>
+                    Imprimer le reçu
+                </button>
+                <button
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-6 rounded-lg transition duration-150 ease-in-out flex items-center">
+                    <i class="mr-2" [innerHTML]="featherIcons['helpCircle']"></i>
+                    Besoin d'aide ?
+                </button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loading" class="flex items-center justify-center h-screen">
+    <div class="loader border-t-transparent border-4 border-blue-500 border-solid rounded-full w-16 h-16 animate-spin">
+    </div>
+</div>

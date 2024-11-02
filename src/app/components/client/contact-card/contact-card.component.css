@@ -1,0 +1,6 @@
+@media (max-width: 640px) {
+    :host {
+        display: block;
+        width: 100%;
+    }
+}

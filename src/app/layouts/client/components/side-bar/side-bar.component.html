@@ -1,0 +1,45 @@
+<aside id="sidebar" class="sidebar bg-white w-64 flex flex-col shadow-xl lg:translate-x-0 z-20 h-full">
+    <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center space-x-3">
+            <img src="https://via.placeholder.com/40" alt="Profile" class="w-10 h-10 rounded-full ring-2 ring-blue-500">
+            <div>
+                <p class="text-sm font-medium text-gray-700">{{name}}</p>
+                <p class="text-xs text-gray-500">{{role}}</p>
+            </div>
+        </div>
+    </div>
+    <nav class="flex-1 p-4">
+        <ul class="space-y-2">
+            <li>
+                <a [routerLink]="['/client/dashboard']" routerLinkActive="text-blue-600 bg-blue-50" class="flex items-center py-2 px-4 rounded-lg transition duration-150 ease-in-out">
+                    <i data-feather="grid" class="w-5 h-5 mr-3"></i> Tableau de bord</a>
+            </li>
+            <li>
+                <a [routerLink]="['/client/transactions']" routerLinkActive="text-blue-600 bg-blue-50" class="flex items-center py-2 px-4 rounded-lg transition duration-150 ease-in-out" [ngClass]="{'text-gray-700': !isCurrentRoute('/client/transactions')}">
+                    <i data-feather="repeat" class="w-5 h-5 mr-3"></i> Transactions</a>
+            </li>
+            <li>
+                <a [routerLink]="['/client/envoyer']" routerLinkActive="text-blue-600 bg-blue-50" class="flex items-center py-2 px-4 rounded-lg transition duration-150 ease-in-out" [ngClass]="{'text-gray-700': !isCurrentRoute('/client/envoyer')}">
+                    <i data-feather="send" class="w-5 h-5 mr-3"></i> Envoyer</a>
+            </li>
+            <li>
+                <a [routerLink]="['/client/recevoir']" routerLinkActive="text-blue-600 bg-blue-50" class="flex items-center py-2 px-4 rounded-lg transition duration-150 ease-in-out" [ngClass]="{'text-gray-700': !isCurrentRoute('/client/recevoir')}">
+                    <i data-feather="download" class="w-5 h-5 mr-3"></i> Recevoir</a>
+            </li>
+        </ul>
+        <div class="mt-6 pt-6 border-t border-gray-200">
+            <ul class="space-y-2">
+                <li>
+                    <a [routerLink]="['/client/parametres']" routerLinkActive="text-blue-600 bg-blue-50" class="flex items-center py-2 px-4 rounded-lg transition duration-150 ease-in-out" [ngClass]="{'text-gray-700': !isCurrentRoute('/client/parametres')}">
+                        <i data-feather="settings" class="w-5 h-5 mr-3"></i> Paramètres</a>
+                </li>
+                <li>
+                    <a [routerLink]="['/login']" class="flex items-center py-2 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition duration-150 ease-in-out">
+                        <i data-feather="log-out" class="w-5 h-5 mr-3 text-red-600"></i> Déconnexion
+                    </a>
+                </li>                
+            </ul>
+        </div>
+    </nav>
+    
+</aside>

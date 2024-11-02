@@ -1,0 +1,18 @@
+<div class="mb-4 bg-gradient-to-br from-blue-50 to-indigo-50 p-4 sm:p-6 md:p-8 rounded-lg">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
+        <app-solde-qrcode 
+            [currency]="currency" 
+            [qrcode]="currentUser.account?.qrCode||''"
+            [walletBalance]="walletBalance">
+        </app-solde-qrcode>
+
+        <app-account-info class="lg:col-span-2"
+            [user]="userSetting">
+        </app-account-info>
+        
+    </div>
+</div>
+
+<app-transaction-historique  
+    [transactions]="transactions">
+</app-transaction-historique>

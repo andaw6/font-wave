@@ -1,0 +1,54 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 p-4">
+  <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md transform transition-all hover:scale-105">
+    <h2 class="text-3xl font-extrabold mb-6 text-center text-gray-800">Connexion</h2>
+    <form (ngSubmit)="onLogin($event)" class="space-y-6">
+      <div>
+        <label for="phone" class="block text-sm font-medium text-gray-700">Numéro de téléphone</label>
+        <input
+          type="tel"
+          id="phone"
+          [(ngModel)]="phone"
+          name="phone"
+          pattern="\+221 7[0-9] [0-9]{3} [0-9]{2} [0-9]{2}"
+          class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          required
+          placeholder="+221 7X XXX XX XX"
+          maxlength="19">
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe (4 chiffres)</label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          maxlength="4"
+          pattern="[0-9]{4}"  
+          inputmode="numeric"
+          class="mt-1 block w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+          required
+          placeholder="****">
+      </div>
+      <div>
+        <button
+          type="submit"
+          [disabled]="isLoading"
+          class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out disabled:opacity-75 disabled:cursor-not-allowed">
+          <span *ngIf="!isLoading">Se connecter</span>
+          <div *ngIf="isLoading" class="flex items-center">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Connexion en cours...
+          </div>
+        </button>
+      </div>
+    </form>
+    <div class="mt-6 text-center">
+      <button (click)="onRegister()" class="text-sm font-medium text-indigo-600 hover:text-indigo-500 transition duration-150 ease-in-out">
+        Pas encore de compte ? S'inscrire
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,216 @@
+<div *ngIf="!scan" class="min-h-full bg-gradient-to-b from-blue-50 to-white">
+    <app-error-display [errors]="errorList"></app-error-display>
+    <app-header [title]="'Envoyer de l\'Argent'"
+        class="sticky top-0 z-20 bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg shadow-sm transition-all duration-300 ease-in-out">
+    </app-header>
+
+    <div class="container mx-auto px-4 py-8 space-y-6 transition-all duration-300 ease-in-out">
+        <!-- Champ de recherche -->
+        <div class="relative">
+            <input type="text" [(ngModel)]="searchQuery" (input)="onSearch()" placeholder="Rechercher un contact..."
+                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+        </div>
+
+        <app-button-add [title]="'Saisir un nouveau numéro'" (click)="openModal()"
+            class="block w-full transform hover:scale-105 transition-all duration-300 ease-in-out">
+        </app-button-add>
+
+        <app-button-qrcode [title]="'Scanner pour envoyer'" (click)="startScanner()"
+            class="block w-full transform hover:scale-105 transition-all duration-300 ease-in-out">
+        </app-button-qrcode>
+
+        <ng-container *ngIf="!searchQuery">
+            <app-contact-list [title]="'Favoris'" [contacts]="favorites" (contactSelected)="onContactSelected($event)"
+                class="block bg-white rounded-2xl shadow-lg p-6 transform hover:shadow-xl transition-all duration-300 ease-in-out">
+            </app-contact-list>
+        </ng-container>
+
+        <app-contact-list (contactSelected)="onContactSelected($event)" [contacts]="filteredContacts"
+            [title]="searchQuery ? 'Résultats de recherche' : 'Contacts'"
+            class="block bg-white rounded-2xl shadow-lg p-6 transform hover:shadow-xl transition-all duration-300 ease-in-out">
+        </app-contact-list>
+    </div>
+
+    <div *ngIf="isModalOpen" class="modal-overlay" (click)="closeModal()" [@fadeInOut]>
+        <div class="modal-content" (click)="$event.stopPropagation()" [@slideInOut]>
+            <div class="transfert-card">
+                <button class="close-button" (click)="closeModal()">
+                    <i class="material-icons">close</i>
+                </button>
+                <div class="transfert-card-header">
+                    <div class="header-image">
+                        <i class="material-icons">monetization_on</i>
+                    </div>
+                    <h2>Envoyer de L'argent</h2>
+                    <h3>Remplissez les détails pour effectuer le transfert</h3>
+                </div>
+                <div class="transfert-card-content">
+                    <form [formGroup]="transfertForm" (ngSubmit)="onSubmit()" class="transfert-form">
+                        <div class="form-field" [class.focused]="isFocused('name')">
+                            <label for="name">Nom du bénéficiaire</label>
+                            <div class="input-wrapper">
+                                <i class="material-icons form-icon">person</i>
+                                <input id="name" formControlName="name" placeholder="Entrez le nom du bénéficiaire"
+                                    required (focus)="onFocus('name')" (blur)="onBlur('name')"
+                                    [disabled]="isContactSelected">
+                            </div>
+                            <div *ngIf="transfertForm.get('name')?.hasError('required') && transfertForm.get('name')?.touched"
+                                class="error-message">
+                                Le nom est requis
+                            </div>
+                        </div>
+
+                        <div class="form-field" [class.focused]="isFocused('phoneNumber')">
+                            <label for="phoneNumber">Numéro de téléphone</label>
+                            <div class="input-wrapper">
+                                <span class="country-code">+221</span>
+                                <i class="material-icons form-icon">phone</i>
+                                <input id="phoneNumber" formControlName="phoneNumber" placeholder="XX XXX XX XX"
+                                    required (focus)="onFocus('phoneNumber')" (blur)="onBlur('phoneNumber')"
+                                    [disabled]="isContactSelected">
+                            </div>
+                            <div *ngIf="transfertForm.get('phoneNumber')?.hasError('pattern') && transfertForm.get('phoneNumber')?.touched"
+                                class="error-message">
+                                Numéro de téléphone invalide
+                            </div>
+                        </div>
+
+
+                        <div class="form-field">
+                            <label for="montant">Montant</label>
+                            <div class="input-wrapper">
+                                <i class="material-icons form-icon">money</i>
+                                <input id="montant" formControlName="montant" placeholder="Entrez le montant" required
+                                    (focus)="onFocus('montant')" (blur)="onBlur('montant')">
+                            </div>
+                            <div *ngIf="transfertForm.get('montant')?.hasError('required') && transfertForm.get('montant')?.touched"
+                                class="error-message">
+                                Le montant est requis
+                            </div>
+                            <div *ngIf="transfertForm.get('montant')?.hasError('min') && transfertForm.get('montant')?.touched"
+                                class="error-message">
+                                Le montant doit être supérieur ou égal à 100
+                            </div>
+                            <div *ngIf="transfertForm.get('montant')?.hasError('insufficientFunds')"
+                                class="error-message">
+                                Votre solde est inffusiant
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="recu">Montant Reçu, Frais de transaction (1% du montant)</label>
+                            <div class="input-wrapper">
+                                <input id="recu" formControlName="recu" placeholder="Reçu" required readonly>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="transfert-card-actions">
+                    <button class="cancel-button" (click)="closeModal()">Annuler</button>
+                    <app-submit-button [isDisabled]="!isValidInput()" [isLoading]="isLoading" (submitted)="onSubmit()">
+                        <div *ngIf="isSuccess"
+                            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                            <div class="bg-white rounded-lg p-6 transform animate-success-pop">
+                                <svg class="w-16 h-16 mx-auto text-green-500 animate-success-check"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 13l4 4L19 7" />
+                                </svg>
+                                <p class="mt-4 text-lg font-medium text-gray-900">Transfert réussi!</p>
+                            </div>
+                        </div>
+                    </app-submit-button>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <div *ngIf="isModalOpen" class="modal-overlay" (click)="closeModal()" [@fadeInOut]>
+        <div class="modal-content" (click)="$event.stopPropagation()" [@slideInOut]>
+            <div class="transfert-card">
+                <button class="close-button" (click)="closeModal()">
+                    <i class="material-icons">close</i>
+                </button>
+                <div class="transfert-card-header">
+                    <div class="header-image">
+                        <i class="material-icons">monetization_on</i>
+                    </div>
+                    <h2>Envoyer de L'argent</h2>
+                    <h3>Vérifiez les détails et saisissez le montant</h3>
+                </div>
+                <div class="transfert-card-content">
+                    <form [formGroup]="transfertForm" (ngSubmit)="onSubmit()" class="transfert-form">
+                        <div class="form-field">
+                            <label for="name">Nom du bénéficiaire</label>
+                            <div class="input-wrapper">
+                                <i class="material-icons form-icon">person</i>
+                                <input id="name" [value]="beneficiaireName" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="phoneNumber">Numéro de téléphone</label>
+                            <div class="input-wrapper">
+                                <i class="material-icons form-icon">phone</i>
+                                <input id="phoneNumber" [value]="beneficiairePhone" disabled>
+                            </div>
+                        </div>
+
+                        <div class="form-field" [class.focused]="isFocused('montant')">
+                            <label for="montant">Montant à envoyer</label>
+                            <div class="input-wrapper">
+                                <i class="material-icons form-icon">attach_money</i>
+                                <input id="montant" type="number" formControlName="montant" min="100" required
+                                    (focus)="onFocus('montant')" (blur)="onBlur('montant')">
+                            </div>
+                            <div *ngIf="transfertForm.get('montant')?.hasError('min') && transfertForm.get('montant')?.touched"
+                                class="error-message">
+                                Le montant doit être supérieur ou égal à 100
+                            </div>
+                        </div>
+
+                        <div class="form-field" [class.focused]="isFocused('recu')">
+                            <label for="recu">Montant reçu</label>
+                            <div class="input-wrapper">
+                                <i class="material-icons form-icon">account_balance_wallet</i>
+                                <input id="recu" type="number" formControlName="recu" min="0" required
+                                    (focus)="onFocus('recu')" (blur)="onBlur('recu')">
+                            </div>
+                        </div>
+
+                        <div class="frais-transaction" [@expandCollapse]="showFrais ? 'expanded' : 'collapsed'">
+                            <div class="frais-transaction-header" (click)="toggleFrais()">
+                                <h4>Frais de transaction</h4>
+                                <i class="material-icons">{{ showFrais ? 'expand_less' : 'expand_more' }}</i>
+                            </div>
+                            <div class="frais-transaction-content" *ngIf="showFrais">
+                                <p class="frais-montant">{{ fraisTransaction }} FCFA</p>
+                                <p class="frais-description">1% du montant envoyé (minimum 100 FCFA)</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="transfert-card-actions">
+                    <button class="cancel-button" (click)="closeModal()">Annuler</button>
+                    <button class="submit-button" [disabled]="!isValidInput()" (click)="onSubmit()">
+                        <i class="material-icons">send</i> Envoyer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+</div>
+
+<app-qr-scanner *ngIf="scan"></app-qr-scanner>

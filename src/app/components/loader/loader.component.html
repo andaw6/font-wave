@@ -1,0 +1,17 @@
+<div *ngIf="loader" class="bg-blue-50 flex items-center justify-center min-h-screen">
+    <div class="text-center">
+        <div class="mb-8">
+            <svg class="w-24 h-24 mx-auto text-blue-500" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                <path class="animate-wave" d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <h1 class="text-3xl font-bold text-blue-700 mb-4">Wave Sénégal</h1>
+        <p class="text-xl text-gray-600 mb-8">Chargement de vos données financières...</p>
+        <div class="flex justify-center space-x-2">
+            <div class="w-3 h-3 bg-blue-500 rounded-full animate-bounce"></div>
+            <div class="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+            <div class="w-3 h-3 bg-blue-500 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+        </div>
+    </div>
+</div>

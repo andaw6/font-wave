@@ -1,0 +1,41 @@
+<div id="body" class="max-w-md mx-auto px-4 py-8">
+    <!-- Header -->
+    <header class="flex justify-between items-center mb-8">
+        <button (click)="closeScanner()" class="text-white p-2 hover:bg-white/20 rounded-full transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <h1 class="text-2xl font-semibold">Scanner QR Code</h1>
+        <button (click)="toggleTorch()" class="text-white p-2 hover:bg-white/20 rounded-full transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+        </button>
+    </header>
+
+    <!-- Camera View -->
+    <div id="video-container" class="mb-8 bg-gray-900 shadow-lg">
+        <video #qrVideo playsinline></video>
+        <div class="scanning-overlay">
+            <div class="scanning-line"></div>
+            <div class="corner corner-tl"></div>
+            <div class="corner corner-tr"></div>
+            <div class="corner corner-bl"></div>
+            <div class="corner corner-br"></div>
+        </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="text-center mb-8">
+        <p class="text-xl font-medium mb-2">Scanner un Code QR pour envoyer</p>
+        <p class="text-sm text-white/70">Placez le QR code à l'intérieur du cadre</p>
+    </div>
+
+    <!-- <div class="bg-white/10 rounded-lg p-4 mb-8">
+        <h2 class="text-lg font-semibold mb-2">Scans récents</h2>
+        <ul class="space-y-2" #recentScans>
+            <li *ngFor="let scan of recentScansList" class="text-sm truncate">{{ scan }}</li>
+        </ul>
+    </div> -->
+</div>
